@@ -1,0 +1,17 @@
+{
+  "name": "data-set-proj",
+  "version": "1.0.0",
+  "description": "ipl data in highchart",
+  "main": "app.js",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "fast-csv": "^2.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
