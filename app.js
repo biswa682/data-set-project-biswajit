@@ -1,10 +1,27 @@
-const express = require('express');
-const fs = require('fs');
-const csv = require('fast-csv');
-const app = express();
+// const express = require('express');
+// const fs = require('fs');
+// const csv = require('fast-csv');
+// const app = express();
 
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
+
+// var objMatchNo = {
+// 	'2008': 28,
+// 	'2009': 36
+// };
+
+// app.set('view engine', 'ejs');
+// app.get('/', function(req, res){
+// 	res.render('index', {matchNo : JSON.stringify(objMatchNo)});
+// 	// res.send();
+// });
+// app.listen(3002, function(){
+// 	console.log("Server is running......");
+// });
+
+
+
 
 const matchCsvFile = fs.createReadStream('./ipl/matches.csv', 'utf8');
 const deliveriesCsvFile = fs.createReadStream('./ipl/deliveries.csv', 'utf8');
@@ -84,19 +101,3 @@ app.listen(3000, function(){
 	.on('end', function(data){
 		// console.log(objMatchNo);
 	});
-
-
-
-
-app.set('view engine', 'ejs');
-app.get('/', function(req, res){
-	res.render('index', {matchNo : JSON.stringify(objMatchNo)});
-	// res.send();
-});
-app.listen(3000, function(){
-	console.log("Server is running......");
-});
-
-
-
-

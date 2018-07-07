@@ -1,5 +1,8 @@
-
-	let ejs = require('ejs');
+var arr = <%-matchNo%>;
+ console.log(arr);
+// var arr = <%-matchNo%>;
+	// console.log(arr);
+	// let ejs = require('ejs');
 	// var arr = ejs.render('<%-matchNo%>');
 	// function getObjectValue(obj){
 	// 	var arr = [];
