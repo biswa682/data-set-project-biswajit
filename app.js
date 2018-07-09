@@ -1,103 +1,92 @@
-// const express = require('express');
-// const fs = require('fs');
-// const csv = require('fast-csv');
-// const app = express();
-
-
-// app.use(express.static('public'));
-
-// var objMatchNo = {
-// 	'2008': 28,
-// 	'2009': 36
-// };
-
-// app.set('view engine', 'ejs');
-// app.get('/', function(req, res){
-// 	res.render('index', {matchNo : JSON.stringify(objMatchNo)});
-// 	// res.send();
-// });
-// app.listen(3002, function(){
-// 	console.log("Server is running......");
-// });
-
-
-
-
-const matchCsvFile = fs.createReadStream('./ipl/matches.csv', 'utf8');
-const deliveriesCsvFile = fs.createReadStream('./ipl/deliveries.csv', 'utf8');
-
-var objMatchNo = {};
-
-function getNoOfMatchesPerYear(year){
-	if(objMatchNo[year] == undefined){
-		objMatchNo[year] = 1;
-	}
-	else{
-		objMatchNo[year] = objMatchNo[year] + 1;
-	}
-}
-
-var count = 0;
-matchCsvFile
-	.pipe(csv())
-	.on('data', function(data){
-		if(count != 0){
-			getNoOfMatchesPerYear(data[1]);
-		}
-		count++;const express = require('express');
+const express = require('express');
 const fs = require('fs');
 const csv = require('fast-csv');
-const app = express();
-
-
-
 const matchCsvFile = fs.createReadStream('./ipl/matches.csv', 'utf8');
 const deliveriesCsvFile = fs.createReadStream('./ipl/deliveries.csv', 'utf8');
-
-function getObjectValue(obj){
-	var arr = [];
-	for(i in obj){
-		arr.push(obj[i]);
-	}
-	return arr;
-}
-function getNoOfMatchesPerYear(matchCsvFile){
-	let count = 0;
-	let objMatchNo = {'key':'value'};
-	matchCsvFile
-		.pipe(csv())
-		.on('data', function(data){
-			if(count != 0){
-				if(objMatchNo[data[1]] == undefined){
-					objMatchNo[data[1]] = 1;
-				}
-				else{
-					objMatchNo[data[1]] = objMatchNo[data[1]] + 1;
-				}
-			}
-			count++;
-		})
-		.on('end', function(data){
-			let arr = getObjectValue(objMatchNo);
-			return arr;
-		});
-}	
-// console.log(getNoOfMatchesPerYear(matchCsvFile));
-
-
+const operation = require('./src/checkFunction');
+const app = express();
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
+let objMatchCountPerYear = {};
+let objWinnerTeamPerYear = {};
+let objExtraRunPerTeam = {};
+let objEconomicalBowler = {};
+let objStrikeRateBatsman = {};
 
-app.get('/', function(req, res){
+// 1st question
+// Matches count in each year
 
-	// res.render('index', {'matchNo' : });
-	res.send('this is node js file  '+ getNoOfMatchesPerYear(matchCsvFile));
+operation.getNoOfMatchesPerYear(matchCsvFile).then(function(data){
+	try{
+		objMatchCountPerYear = data;
+	}
+	catch(e){
+		console.log("There is an error in getNoOfMatchesPerYear method");
+	}
+});
+
+//2nd Question
+// no of winning match by each team per year
+
+operation.getMatchesOwnByAllTeam(matchCsvFile).then(function(data){
+	try{
+		objWinnerTeamPerYear = data;
+	}
+	catch(e){
+		console.log("There is an error in getMatchesOwnByAllTeam method");
+	}
+});
+
+//3rd Question
+//the extra run by each team in 2016
+operation.getExtraRunPerTeam(matchCsvFile, deliveriesCsvFile).then(function(data){
+	try{
+		objExtraRunPerTeam = data;
+	}
+	catch(e){
+		console.log("There is an error in getExtraRunPerTeam method");
+	}
+});
+
+//4th Question
+//The top Economical bowler list in 2015
+operation.getEconomicalBowlers(matchCsvFile, deliveriesCsvFile, 2).then(function(data){
+	try{
+		objEconomicalBowler = data;
+	}
+	catch(e){
+		console.log("There is an error in getEconomicalBowlers method");
+	}
+});
+
+//5th Question
+//The top strike rate Batsman
+operation.getTopStrikeRateBatsman(matchCsvFile, deliveriesCsvFile, 2).then(function(data){
+	try{
+		objStrikeRateBatsman = data;
+	}
+	catch(e){
+		console.log("There is an problem in getTopStrikeRateBatsman method");
+	}
+});
+app.get('/',function(req, res){
+	res.render('index');
+});
+app.get('/noOfMatches', function(req, res){
+	res.render('noOfMatches', {matchNo : JSON.stringify(objMatchCountPerYear)});
+});
+app.get('/winnerTeamPerYear', function(req, res){
+	res.render('winnerTeamPerYear',{winnerPerYear : JSON.stringify(objWinnerTeamPerYear)});
+});
+app.get('/extraRunInEachTeam', function(req, res){
+	res.render('extraRunInEachTeam',{extraRun : JSON.stringify(objExtraRunPerTeam)});
+});
+app.get('/economicalBowlers', function(req, res){
+	res.send(JSON.stringify(objEconomicalBowler));
+});
+app.get('/strikerateOfBatsman', function(req, res){
+	res.send(JSON.stringify(objStrikeRateBatsman));
 });
 app.listen(3000, function(){
 	console.log("Server is running......");
 });
-
-	})
-	.on('end', function(data){
-		// console.log(objMatchNo);
-	});

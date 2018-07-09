@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
-	<script src="https://code.highcharts.com/highcharts.js"></script>
-	<script src="https://code.highcharts.com/modules/series-label.js"></script>
-	<script src="https://code.highcharts.com/modules/exporting.js"></script>
-	<script src="https://code.highcharts.com/modules/export-data.js"></script>
-
-
-
+	<title>IPL Status</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
-	#container1 {
-		min-width: 310px;
-		max-width: 800px;
-		height: 400px;
-		margin: 0 auto
-	}
+		.main-container{
+			/*text-align: center;*/
+			padding-top: 30px;
+			width: 70%;
+			margin: 0 auto;
+		}
+		.main-container a{
+			line-height: 30px;
+			text-decoration: none;
+			color: black;
+			font-size: 16px;
+		}
 	</style>
 </head>
 <body>
-	<div class="container1" id="container1">
-		<!-- <p><%= matchNo %></p> -->
-	</div>
+	<section class="main-container">
+		<a href="noOfMatches">No Of Match Per Year</a><br>	
+		<a href="winnerTeamPerYear">No of all winner in each year</a><br>	
+		<a href="extraRunInEachTeam">Extra run in 2016</a>	<br>
+		<a href="economicalBowlers">Top Economical Bowler in 2015</a><br>	
+		<a href="strikerateOfBatsman">Top Strike rate Batsman in 2017</a>	
+	</section>
 </body>
-<script type="text/javascript">
- var arr = <%-matchNo%>;
-
-</script>
 </html>
