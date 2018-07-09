@@ -16,7 +16,7 @@ let objStrikeRateBatsman = {};
 // 1st question
 // Matches count in each year
 
-operation.getNoOfMatchesPerYear(matchCsvFile).then(function(data){
+let a = operation.getNoOfMatchesPerYear(matchCsvFile).then(function(data){
 	try{
 		objMatchCountPerYear = data;
 	}
@@ -24,7 +24,6 @@ operation.getNoOfMatchesPerYear(matchCsvFile).then(function(data){
 		console.log("There is an error in getNoOfMatchesPerYear method");
 	}
 });
-
 //2nd Question
 // no of winning match by each team per year
 
@@ -50,7 +49,7 @@ operation.getExtraRunPerTeam(matchCsvFile, deliveriesCsvFile).then(function(data
 
 //4th Question
 //The top Economical bowler list in 2015
-operation.getEconomicalBowlers(matchCsvFile, deliveriesCsvFile, 2).then(function(data){
+operation.getEconomicalBowlers(matchCsvFile, deliveriesCsvFile, 10).then(function(data){
 	try{
 		objEconomicalBowler = data;
 	}
@@ -61,7 +60,7 @@ operation.getEconomicalBowlers(matchCsvFile, deliveriesCsvFile, 2).then(function
 
 //5th Question
 //The top strike rate Batsman
-operation.getTopStrikeRateBatsman(matchCsvFile, deliveriesCsvFile, 2).then(function(data){
+operation.getTopStrikeRateBatsman(matchCsvFile, deliveriesCsvFile, 10).then(function(data){
 	try{
 		objStrikeRateBatsman = data;
 	}
@@ -82,10 +81,10 @@ app.get('/extraRunInEachTeam', function(req, res){
 	res.render('extraRunInEachTeam',{extraRun : JSON.stringify(objExtraRunPerTeam)});
 });
 app.get('/economicalBowlers', function(req, res){
-	res.send(JSON.stringify(objEconomicalBowler));
+	res.render('economicalBowlers', {economicalBowler : JSON.stringify(objEconomicalBowler)});
 });
 app.get('/strikerateOfBatsman', function(req, res){
-	res.send(JSON.stringify(objStrikeRateBatsman));
+	res.render('strikerateOfBatsman', {strikerateOfBatsman : JSON.stringify(objStrikeRateBatsman)});
 });
 app.listen(3000, function(){
 	console.log("Server is running......");

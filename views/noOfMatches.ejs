@@ -5,16 +5,16 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://code.highcharts.com/highcharts.js"></script>
-	<script src="https://code.highcharts.com/modules/series-label.js"></script>
-	<script src="https://code.highcharts.com/modules/exporting.js"></script>
-	<script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
 	<style>
 	#container1 {
 		min-width: 310px;
 		max-width: 800px;
 		height: 400px;
 		margin: 0 auto
-	}
+	}  
 	</style>
 </head>
 <body>
@@ -22,60 +22,53 @@
 	</div>
 </body>
 <script type="text/javascript">
- var listOfMatches = <%-matchNo%>;
- var noOfMatchesList = [];
-for(let i in listOfMatches){
-	noOfMatchesList.push(listOfMatches[i]);
-}
-Highcharts.chart('container1', {
-
-    title: {
-        text: 'Plot the number of matches played per year of all the years in IPL.'
-    },
-
-    subtitle: {
-        text: 'IPL Data chart'
-    },
-
-    yAxis: {
-        title: {
-            text: 'Number of Matches Per Year'
-        }
-    },
-    legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle'
-    },
-
-    plotOptions: {
-        series: {
-            label: {
-                connectorAllowed: false
-            },
-            pointStart: 2008
-        }
-    },
-
-    series: [{
-        name: 'Installation',
-        data: noOfMatchesList
-    }],
-
-    responsive: {
-        rules: [{
-            condition: {
-                maxWidth: 500
-            },
-            chartOptions: {
-                legend: {
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom'
-                }
-            }
-        }]
+    var listOfMatches = <%-matchNo%>;
+    var noOfMatchesList = [];
+    var noOfSeasonList = [];
+    for(let i in listOfMatches){
+        noOfSeasonList.push(i);
+	    noOfMatchesList.push(listOfMatches[i]);
     }
-}); 
+
+    Highcharts.chart('container1', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Number of matches per year'
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            categories: noOfSeasonList,
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Number of matches'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'IPL Status',
+            data: noOfMatchesList
+
+        }]
+    });
 </script>
 </html>

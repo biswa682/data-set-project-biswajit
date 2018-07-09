@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Strike Rate of Batsman</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts-more.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<style>
+	#container1 {
+		min-width: 310px;
+		max-width: 800px;
+		height: 400px;
+		margin: 0 auto
+	}
+	</style>
+</head>
+<body>
+	<div class="container1" id="container1">
+	
+	</div>
+</body>
+<script type="text/javascript">
+	let strikerateOfBatsman = <%-strikerateOfBatsman%>;
+	let batsmanName = [];
+	let runrateRate = [];
+	for(let i in strikerateOfBatsman){
+		batsmanName.push(i);
+		runrateRate.push(strikerateOfBatsman[i]);
+	}
+	var chart = Highcharts.chart('container1', {
+
+	    title: {
+	        text: 'Top 10 Strike Rate in the year 2017'
+	    },
+
+	    subtitle: {
+	        text: 'Strike Rate list'
+	    },
+
+	    xAxis: {
+	        categories: batsmanName
+	    },
+
+	    series: [{
+	        type: 'column',
+	        colorByPoint: true,
+	        data: runrateRate,
+	        showInLegend: false
+	    }]
+
+	});
+
+
+	$('#plain').click(function () {
+	    chart.update({
+	        chart: {
+	            inverted: false,
+	            polar: false
+	        },
+	        subtitle: {
+	            text: 'Plain'
+	        }
+	    });
+	});
+
+	$('#inverted').click(function () {
+	    chart.update({
+	        chart: {
+	            inverted: true,
+	            polar: false
+	        },
+	        subtitle: {
+	            text: 'Inverted'
+	        }
+	    });
+	});
+
+	$('#polar').click(function () {
+	    chart.update({
+	        chart: {
+	            inverted: false,
+	            polar: true
+	        },
+	        subtitle: {
+	            text: 'Polar'
+	        }
+	    });
+	});
+</script>
+</html>
