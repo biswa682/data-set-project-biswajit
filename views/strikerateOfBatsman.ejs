@@ -9,17 +9,46 @@
 	<script src="https://code.highcharts.com/highcharts-more.js"></script>
 	<script src="https://code.highcharts.com/modules/exporting.js"></script>
 	<style>
+	body{
+        background: #d9d9d9;
+    }
 	#container1 {
 		min-width: 310px;
 		max-width: 800px;
 		height: 400px;
 		margin: 0 auto
 	}
+	body{
+        background: #d9d9d9;
+    }
+	.btn{
+		padding: 30px;
+		text-align: center;
+	}
+	button{
+		background: #00e600;
+		border: none;
+		height: 40px;
+		width: 100px;
+		border-radius: 5px;
+		margin: 10px;
+		font-size: 18px;
+		color: white;
+	}
+	button:hover{
+		background: #001a66;
+		color: #00e600;
+	}
 	</style>
 </head>
 <body>
 	<div class="container1" id="container1">
 	
+	</div>
+	<div class="btn">
+		<button id="plain">Plain</button>
+		<button id="inverted">Inverted</button>
+		<button id="polar">Polar</button>
 	</div>
 </body>
 <script type="text/javascript">

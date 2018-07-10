@@ -3,16 +3,16 @@
 <head>
 	<title>No Of Winner per year</title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 	<script src="https://code.highcharts.com/modules/exporting.js"></script>
 	<script src="https://code.highcharts.com/modules/export-data.js"></script>
 
 	<style>
+	body{
+        background: #d9d9d9;
+    }
 	#container1 {
-		min-width: 310px;
-		max-width: 800px;
-		height: 400px;
+		height: 600px;
 		margin: 0 auto
 	}
 	</style>
@@ -25,79 +25,61 @@
 <script type="text/javascript">
 	let winnerPerYear = <%-winnerPerYear%>;
 	let season = [];
+	let teamName = [];
 	for(let i in winnerPerYear){
 		season.push(i);
 		for(let j in winnerPerYear[i]){
-			// console.log(winnerPerYear[i]);
+			if(!teamName.includes(j)){
+				teamName.push(j);
+			}
 		}
 	}
+	let arr = [];
+	let mainData = [];
+	for(let j in teamName){	
+		for(let i in season){
+			if(winnerPerYear[season[i]].hasOwnProperty(teamName[j])){
+				arr.push(winnerPerYear[season[i]][teamName[j]]);
+			}
+			else{
+				arr.push(0);
+			}
+		}
+		let obj = {
+			'name': teamName[j],
+			'data':arr
+		}
+		mainData.push(obj);
+		arr = [];
+	}
 
+Highcharts.chart('container1', {
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: 'Stacked bar chart Of IPL data'
+    },
+    xAxis: {
+        categories: season
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'IPL all seasons'
+        }
+    },
+    legend: {
+        reversed: true
+    },
+    plotOptions: {
+        series: {
+            stacking: 'normal'
+        }
+    },
+    series: mainData
+});
 
-	// console.log(winnerPerYear);
-	Highcharts.chart('container1', {
-	    chart: {
-	        type: 'bar'
-	    },
-	    title: {
-	        text: 'Historic World Population by Region'
-	    },
-	    subtitle: {
-	        text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
-	    },
-	    xAxis: {
-	        // categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania'],
-	        categories: season,
-	        title: {
-	            text: null
-	        }
-	    },
-	    yAxis: {
-	        min: 0,
-	        title: {
-	            text: 'Population (millions)',
-	            align: 'high'
-	        },
-	        labels: {
-	            overflow: 'justify'
-	        }
-	    },
-	    tooltip: {
-	        valueSuffix: ' millions'
-	    },
-	    plotOptions: {
-	        bar: {
-	            dataLabels: {
-	                enabled: true
-	            }
-	        }
-	    },
-	    legend: {
-	        layout: 'vertical',
-	        align: 'right',
-	        verticalAlign: 'top',
-	        x: -40,
-	        y: 80,
-	        floating: true,
-	        borderWidth: 1,
-	        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-	        shadow: true
-	    },
-	    credits: {
-	        enabled: false
-	    },
-	    series: [{
-	        name: 'Year 1800',
-	        data: [107, 31, 635, 203, 2]
-	    }, {
-	        name: 'Year 1900',
-	        data: [133, 156, 947, 408, 6]
-	    }, {
-	        name: 'Year 2000',
-	        data: [814, 841, 3714, 727, 31]
-	    }, {
-	        name: 'Year 2016',
-	        data: [1216, 1001, 4436, 738, 40]
-	    }]
-	});
+	
 </script>
 </html>

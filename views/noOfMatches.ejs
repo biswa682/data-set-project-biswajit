@@ -9,11 +9,15 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
 
 	<style>
+    body{
+        background: #d9d9d9;
+    }
 	#container1 {
 		min-width: 310px;
 		max-width: 800px;
 		height: 400px;
-		margin: 0 auto
+		margin: 0 auto;
+        /*background: transparent;*/
 	}  
 	</style>
 </head>
@@ -29,7 +33,6 @@
         noOfSeasonList.push(i);
 	    noOfMatchesList.push(listOfMatches[i]);
     }
-
     Highcharts.chart('container1', {
         chart: {
             type: 'column'
